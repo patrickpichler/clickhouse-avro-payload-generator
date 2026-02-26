@@ -12,7 +12,6 @@ import (
 type Person struct {
 	Name   string `avro:"name"`
 	Height uint64 `avro:"height"`
-	Age    int64  `avro:"age"`
 }
 
 func Must[T any](v T, err error) T {
@@ -27,13 +26,11 @@ func main() {
 	p := Person{
 		Name:   "Philip",
 		Height: 175,
-		Age:    35,
 	}
 
 	schema, err := avro.NewRecordSchema("person", "", []*avro.Field{
 		Must(avro.NewField("name", avro.NewPrimitiveSchema(avro.String, nil))),
 		Must(avro.NewField("height", Must(avro.NewFixedSchema("height", "", 8, nil)))),
-		Must(avro.NewField("age", Must(avro.NewFixedSchema("height", "", 8, nil)))),
 	})
 
 	fmt.Println(schema.String())
